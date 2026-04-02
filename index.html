@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>UNO Online</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(160deg, #0f0f1e 0%, #1a1a2e 60%, #16213e 100%); min-height: 100vh; color: #fff; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+.screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; gap: 20px; }
+.screen.active { display: flex; }
+.logo { font-size: 64px; font-weight: 900; color: #e53935; text-shadow: 0 0 30px #e53935; letter-spacing: 6px; }
+.subtitle { color: rgba(255,255,255,.6); font-size: 15px; }
+input { width: 100%; max-width: 320px; padding: 12px 16px; border-radius: 10px; border: 2px solid rgba(255,255,255,.2); background: rgba(255,255,255,.07); color: #fff; font-size: 16px; outline: none; transition: border .2s; }
+input:focus { border-color: #e53935; }
+input::placeholder { color: rgba(255,255,255,.35); }
+.btn { padding: 12px 32px; border-radius: 12px; border: none; font-size: 16px; font-weight: 700; cursor: pointer; transition: transform .15s, opacity .15s; letter-spacing: 1px; }
+.btn:active { transform: scale(.96); }
+.btn-red { background: #e53935; color: #fff; }
+.btn-ghost { background: rgba(255,255,255,.1); color: #fff; border: 2px solid rgba(255,255,255,.2); }
+.btn:disabled { opacity: .4; cursor: default; }
+.room-code-display { font-size: 48px; font-weight: 900; letter-spacing: 12px; color: #f9a825; text-shadow: 0 0 20px rgba(249,168,37,.4); background: rgba(255,255,255,.05); padding: 16px 32px; border-radius: 16px; border: 2px solid rgba(249,168,37,.3); }
+.player-list { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 8px; }
+.player-item { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.07); padding: 10px 16px; border-radius: 10px; font-size: 15px; }
+.player-dot { width: 10px; height: 10px; border-radius: 50%; background: #43a047; }
+.status-msg { color: rgba(255,255,255,.6); font-size: 14px; text-align: center; }
+#gameScreen { display: none; flex-direction: column; min-height: 100vh; }
+#gameScreen.active { display: flex; }
+.top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: rgba(0,0,0,.35); border-bottom: 1px solid rgba(255,255,255,.08); }
+.top-bar .logo-sm { font-size: 22px; font-weight: 900; color: #e53935; letter-spacing: 3px; }
+.color-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(255,255,255,.5); transition: background .3s; box-shadow: 0 0 10px currentColor; }
+.msg-bar { text-align: center; padding: 7px 12px; font-size: 14px; font-weight: 600; background: rgba(255,255,255,.06); min-height: 36px; border-bottom: 1px solid rgba(255,255,255,.06); }
+.opponents { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 12px; }
+.opponent-box { display: flex; flex-direction: column; align-items: center; gap: 4px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; padding: 6px 10px; min-width: 80px; }
+.opponent-box.active-turn { border-color: #f9a825; background: rgba(249,168,37,.1); }
+.opponent-name { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.75); }
+.opponent-cards { display: flex; gap: 2px; flex-wrap: wrap; justify-content: center; }
+.play-area { display: flex; justify-content: center; align-items: center; gap: 28px; padding: 14px; flex: 1; }
+.pile-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.pile-label { font-size: 11px; color: rgba(255,255,255,.45); }
+.my-area { background: rgba(0,0,0,.4); border-top: 2px solid rgba(255,255,255,.1); padding: 12px 12px 20px; }
+.my-name { text-align: center; font-size: 14px; font-weight: 700; color: #f9a825; margin-bottom: 10px; }
+.hand { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; justify-content: safe center; scrollbar-width: none; }
+.hand::-webkit-scrollbar { display: none; }
+.draw-btn-wrap { text-align: center; margin-top: 10px; }
+.card { border-radius: 8px; border: 2px solid rgba(0,0,0,.3); box-shadow: 0 2px 8px rgba(0,0,0,.4); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; user-select: none; flex-shrink: 0; position: relative; transition: transform .15s, box-shadow .15s; }
+.card.playable:hover { transform: translateY(-8px); box-shadow: 0 8px 20px rgba(0,0,0,.5); }
+.card.playable { border-color: #fff; }
+.card.disabled { opacity: .5; cursor: default; }
+.card-back { background: linear-gradient(135deg, #c62828, #e53935); cursor: default; }
+.card-lg { width: 68px; height: 100px; font-size: 26px; }
+.card-sm { width: 34px; height: 50px; font-size: 13px; }
+.card-corner { position: absolute; font-size: 11px; font-weight: bold; }
+.card-corner.tl { top: 3px; left: 5px; }
+.card-corner.br { bottom: 3px; right: 5px; transform: rotate(180deg); }
+.card-oval { position: absolute; width: 60%; height: 75%; border: 2px solid rgba(255,255,255,.25); border-radius: 50%; pointer-events: none; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.75); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 100; gap: 20px; }
+.overlay.active { display: flex; }
+.color-btns { display: flex; gap: 16px; }
+.color-btn { width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 3px solid rgba(255,255,255,.4); transition: transform .15s; box-shadow: 0 4px 20px rgba(0,0,0,.4); }
+.color-btn:hover { transform: scale(1.15); }
+.uno-flash { position: fixed; inset: 0; pointer-events: none; display: flex; align-items: center; justify-content: center; z-index: 200; }
+.uno-text { font-size: 80px; font-weight: 900; color: #f9a825; text-shadow: 0 0 30px #e53935, 0 0 60px #e53935; letter-spacing: 6px; animation: unoPulse .7s ease-in-out forwards; }
+@keyframes unoPulse { 0%{transform:scale(.4);opacity:0} 50%{transform:scale(1.2);opacity:1} 100%{transform:scale(1);opacity:1} }
+.winner-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.85); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 24px; z-index: 300; }
+.winner-overlay.active { display: flex; }
+.winner-text { font-size: 48px; font-weight: 900; color: #f9a825; text-shadow: 0 0 30px #e53935; text-align: center; }
+</style>
+</head>
+<body>
+<div class="screen active" id="topScreen">
+  <div class="logo">UNO</div>
+  <div class="subtitle">オンライン対戦</div>
+  <input id="nameInput" placeholder="あなたの名前を入力" maxlength="12">
+  <button class="btn btn-red" onclick="goCreate()">部屋を作る</button>
+  <button class="btn btn-ghost" onclick="goJoin()">部屋に参加</button>
+</div>
+<div class="screen" id="createScreen">
+  <div class="subtitle">部屋コード</div>
+  <div class="room-code-display" id="roomCodeDisplay">----</div>
+  <div class="subtitle">このコードを友達に送ってください</div>
+  <button class="btn btn-ghost" id="copyBtn" onclick="copyCode()">コードをコピー</button>
+  <div style="width:100%;max-width:320px"><div class="subtitle" style="margin-bottom:8px">参加者</div><div class="player-list" id="lobbyPlayerList"></div></div>
+  <button class="btn btn-red" id="startBtn" onclick="startGame()" disabled>ゲーム開始</button>
+  <div class="status-msg" id="lobbyStatus">2人以上集まったら開始できます</div>
+  <button class="btn btn-ghost" onclick="goTop()" style="font-size:13px;padding:8px 20px">戻る</button>
+</div>
+<div class="screen" id="joinScreen">
+  <div class="subtitle">部屋コードを入力</div>
+  <input id="roomCodeInput" placeholder="例: A3F7" maxlength="4" style="text-align:center;font-size:28px;letter-spacing:8px;text-transform:uppercase">
+  <button class="btn btn-red" onclick="joinRoom()">参加する</button>
+  <div class="status-msg" id="joinStatus"></div>
+  <button class="btn btn-ghost" onclick="goTop()" style="font-size:13px;padding:8px 20px">戻る</button>
+</div>
+<div id="gameScreen">
+  <div class="top-bar">
+    <div class="logo-sm">UNO</div>
+    <div style="display:flex;align-items:center;gap:8px"><div class="color-dot" id="colorDot"></div><span style="font-size:12px;color:rgba(255,255,255,.6)">現在の色</span></div>
+    <button class="btn btn-ghost" style="font-size:12px;padding:5px 12px" onclick="leaveGame()">退出</button>
+  </div>
+  <div class="msg-bar" id="msgBar">読み込み中…</div>
+  <div class="opponents" id="opponents"></div>
+  <div class="play-area">
+    <div class="pile-wrap"><div id="deckCard" onclick="drawCard()" style="cursor:pointer"></div><div class="pile-label" id="deckCount">山札</div></div>
+    <div class="pile-wrap"><div id="topCard"></div><div class="pile-label">捨て札</div></div>
+  </div>
+  <div class="my-area">
+    <div class="my-name" id="myName"></div>
+    <div class="hand" id="myHand"></div>
+    <div class="draw-btn-wrap"><button class="btn btn-ghost" style="font-size:14px;padding:8px 24px" onclick="drawCard()">カードをドロー</button></div>
+  </div>
+</div>
+<div class="overlay" id="colorOverlay">
+  <div style="font-size:20px;font-weight:bold">色を選んでください</div>
+  <div class="color-btns">
+    <div class="color-btn" style="background:#e53935" onclick="pickColor('red')"></div>
+    <div class="color-btn" style="background:#f9a825" onclick="pickColor('yellow')"></div>
+    <div class="color-btn" style="background:#43a047" onclick="pickColor('green')"></div>
+    <div class="color-btn" style="background:#1e88e5" onclick="pickColor('blue')"></div>
+  </div>
+</div>
+<div class="winner-overlay" id="winnerOverlay">
+  <div class="winner-text" id="winnerText">🎉 WIN!</div>
+  <button class="btn btn-ghost" onclick="leaveGame()">ロビーへ戻る</button>
+</div>
+<div class="uno-flash" id="unoFlash" style="display:none"><div class="uno-text">UNO!</div></div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getDatabase,ref,set,get,update,onValue,off}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+const app=initializeApp({apiKey:"AIzaSyDhhGruoz58d9ly7OfnMtkMYM5bDEhq6zA",authDomain:"u-no-eaa03.firebaseapp.com",databaseURL:"https://u-no-eaa03-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"u-no-eaa03",storageBucket:"u-no-eaa03.firebasestorage.app",messagingSenderId:"263105745311",appId:"1:263105745311:web:3f1a29ca8fe8cdb908edaa"});
+const db=getDatabase(app);
+const COLORS=["red","yellow","green","blue"];
+const CM={red:{bg:"#e53935"},yellow:{bg:"#f9a825"},green:{bg:"#43a047"},blue:{bg:"#1e88e5"},wild:{bg:"#333"}};
+const sym=v=>({skip:"⊘",reverse:"↺",draw2:"+2",wild:"🌈",wild4:"+4"})[v]||v;
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;};
+function createDeck(){const d=[];let i=0;for(const c of COLORS){d.push({id:i++,color:c,value:"0",type:"number"});for(const n of"123456789"){d.push({id:i++,color:c,value:n,type:"number"});d.push({id:i++,color:c,value:n,type:"number"});}for(const a of["skip","reverse","draw2"]){d.push({id:i++,color:c,value:a,type:"action"});d.push({id:i++,color:c,value:a,type:"action"});}}for(const w of["wild","wild4"])for(let j=0;j<4;j++)d.push({id:i++,color:"wild",value:w,type:"wild"});return shuffle(d);}
+const canPlay=(c,top,cc)=>c.type==="wild"||c.color===cc||c.value===top.value;
+const randCode=()=>{const s="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";return[...Array(4)].map(()=>s[0|Math.random()*s.length]).join("");};
+let myName="",myId="",roomCode="",isHost=false,gameRef=null,gameListener=null,lobbyRef=null,lobbyListener=null;
+const show=id=>{document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById("gameScreen").classList.remove("active");document.getElementById(id)?.classList.add("active");};
+window.goTop=()=>{cleanup();show("topScreen");};
+window.goCreate=async()=>{myName=document.getElementById("nameInput").value.trim()||"Player";myId="p_"+Date.now()+"_"+Math.random().toString(36).slice(2);roomCode=randCode();isHost=true;await set(ref(db,"rooms/"+roomCode),{host:myId,status:"lobby",players:{[myId]:{name:myName,order:0}},createdAt:Date.now()});document.getElementById("roomCodeDisplay").textContent=roomCode;show("createScreen");listenLobby();};
+window.goJoin=()=>{myName=document.getElementById("nameInput").value.trim()||"Player";myId="p_"+Date.now()+"_"+Math.random().toString(36).slice(2);show("joinScreen");};
+window.copyCode=()=>navigator.clipboard.writeText(roomCode).then(()=>{document.getElementById("copyBtn").textContent="コピーしました！";setTimeout(()=>document.getElementById("copyBtn").textContent="コードをコピー",2000);});
+function listenLobby(){lobbyRef=ref(db,"rooms/"+roomCode);lobbyListener=onValue(lobbyRef,snap=>{const d=snap.val();if(!d)return;if(d.status==="playing"){off(lobbyRef,lobbyListener);startLocalGame();return;}const pl=Object.values(d.players||{});document.getElementById("lobbyPlayerList").innerHTML=pl.map(p=>'<div class="player-item"><div class="player-dot"></div><span>'+p.name+(p.name===myName&&d.host===myId?" (ホスト)":"")+"</span></div>").join("");if(isHost){document.getElementById("startBtn").disabled=pl.length<2;document.getElementById("lobbyStatus").textContent=pl.length<2?"もう1人以上必要です":pl.length+"人が参加中";}else{document.getElementById("startBtn").disabled=true;document.getElementById("lobbyStatus").textContent=pl.length+"人が参加中 — ホストの開始待ち";}});}
+window.joinRoom=async()=>{const code=document.getElementById("roomCodeInput").value.trim().toUpperCase();if(code.length!==4){document.getElementById("joinStatus").textContent="4文字で入力してください";return;}const snap=await get(ref(db,"rooms/"+code));if(!snap.exists()){document.getElementById("joinStatus").textContent="部屋が見つかりません";return;}const d=snap.val();if(d.status!=="lobby"){document.getElementById("joinStatus").textContent="既に開始されています";return;}roomCode=code;isHost=false;const pl=Object.values(d.players||{});if(pl.length>=8){document.getElementById("joinStatus").textContent="満員です";return;}await update(ref(db,"rooms/"+code+"/players"),{[myId]:{name:myName,order:pl.length}});document.getElementById("roomCodeDisplay").textContent=code;show("createScreen");listenLobby();};
+window.startGame=async()=>{if(!isHost)return;const snap=await get(ref(db,"rooms/"+roomCode+"/players"));const pl=Object.entries(snap.val()||{}).map(([id,p])=>({id,...p})).sort((a,b)=>a.order-b.order);let deck=createDeck();const hands={};pl.forEach(p=>{hands[p.id]=deck.splice(0,7);});const ti=deck.findIndex(c=>c.type!=="wild");const[top]=deck.splice(ti,1);await update(ref(db,"rooms/"+roomCode),{status:"playing",game:{players:pl.map(p=>({id:p.id,name:p.name})),hands,deck,discard:[top],currentColor:top.color,currentPlayer:0,direction:1,phase:"play",message:pl[0].name+"のターン",updatedAt:Date.now()}});};
+function startLocalGame(){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById("gameScreen").classList.add("active");document.getElementById("myName").textContent=myName;gameRef=ref(db,"rooms/"+roomCode+"/game");gameListener=onValue(gameRef,snap=>{const g=snap.val();if(g)render(g);});}
+let lastFlash="";
+function render(g){const top=g.discard[g.discard.length-1];const cc=g.currentColor;const mi=g.players.findIndex(p=>p.id===myId);const mt=g.currentPlayer===mi&&g.phase==="play";document.getElementById("colorDot").style.background=CM[cc]?.bg||"#333";document.getElementById("msgBar").textContent=g.message||"";if(g.unoFlash&&g.unoFlash!==lastFlash){lastFlash=g.unoFlash;const f=document.getElementById("unoFlash");f.style.display="flex";setTimeout(()=>f.style.display="none",1200);}document.getElementById("deckCount").textContent="山札 ("+(g.deck||[]).length+")";document.getElementById("deckCard").innerHTML=back("card-lg");document.getElementById("topCard").innerHTML=cEl(top,"card-lg",false,false);const oe=document.getElementById("opponents");oe.innerHTML="";g.players.forEach((p,i)=>{if(p.id===myId)return;const h=g.hands?.[p.id]||[];const b=document.createElement("div");b.className="opponent-box"+(g.currentPlayer===i?" active-turn":"");b.innerHTML='<div class="opponent-name">'+p.name+" ("+h.length+'枚)</div><div class="opponent-cards">'+h.slice(0,10).map(()=>back("card-sm")).join("")+"</div>";oe.appendChild(b);});const mh=g.hands?.[myId]||[];const he=document.getElementById("myHand");he.innerHTML="";mh.forEach(c=>{const pl=mt&&canPlay(c,top,cc);const d=document.createElement("div");d.innerHTML=cEl(c,"card-lg",pl,!pl);const el=d.firstChild;if(pl)el.onclick=()=>playCard(c,g);he.appendChild(el);});const np=g.phase==="colorPick"&&g.players[g.currentPlayer]?.id===myId;document.getElementById("colorOverlay").classList.toggle("active",np);if(g.phase==="gameover"){document.getElementById("winnerText").textContent="🎉 "+g.winner+" WIN!";document.getElementById("winnerOverlay").classList.add("active");}}
+const cEl=(c,sz,pl,dis)=>'<div class="card '+sz+(pl?" playable":"")+(dis?" disabled":"")+'" style="background:'+(CM[c.color]?.bg||"#333")+'"><span class="card-corner tl">'+sym(c.value)+"</span><span>"+sym(c.value)+'</span><span class="card-corner br">'+sym(c.value)+'</span><div class="card-oval"></div></div>';
+const back=sz=>'<div class="card '+sz+' card-back"><span style="font-weight:900;color:#fff;font-size:12px">UNO</span></div>';
+async function playCard(c,g){if(!canPlay(c,g.discard[g.discard.length-1],g.currentColor))return;const mi=g.players.findIndex(p=>p.id===myId);let deck=[...g.deck],disc=[...g.discard,c];const nh=(g.hands[myId]||[]).filter(x=>x.id!==c.id);const hands={...g.hands,[myId]:nh};const dir=g.direction,n=g.players.length;if(nh.length===0&&c.type!=="wild"){await update(gameRef,{hands,discard:disc,phase:"gameover",winner:myName,message:"🎉 "+myName+" の勝ち！",updatedAt:Date.now()});return;}const uf=nh.length===1?myName:null;if(c.type==="wild"){await update(gameRef,{hands,discard:disc,deck,phase:"colorPick",pendingWild4:c.value==="wild4",unoFlash:uf,message:"色を選んでください",updatedAt:Date.now()});return;}const nb=(mi+dir+n*10)%n,s2=(mi+dir*2+n*10)%n;let nx,nd=dir,msg;if(c.value==="skip"){nx=s2;msg=g.players[nb].name+" をスキップ！→ "+g.players[nx].name+"のターン";}else if(c.value==="reverse"){nd=-dir;nx=n===2?mi:(mi+nd+n*10)%n;msg="リバース！→ "+g.players[nx].name+"のターン";}else if(c.value==="draw2"){const h=[...(hands[g.players[nb].id]||[])];for(let i=0;i<2;i++){if(!deck.length){deck=shuffle(disc.slice(0,-1));disc=[disc[disc.length-1]];}h.push(deck.splice(0,1)[0]);}hands[g.players[nb].id]=h;nx=s2;msg=g.players[nb].name+" が2枚ドロー！→ "+g.players[nx].name+"のターン";}else{nx=nb;msg=g.players[nx].name+"のターン";}await update(gameRef,{hands,discard:disc,deck,currentColor:c.color,currentPlayer:nx,direction:nd,phase:"play",unoFlash:uf,message:msg,updatedAt:Date.now()});}
+window.drawCard=async()=>{const snap=await get(gameRef);const g=snap.val();if(!g)return;const mi=g.players.findIndex(p=>p.id===myId);if(g.currentPlayer!==mi||g.phase!=="play")return;let deck=[...g.deck],disc=[...g.discard];if(!deck.length){deck=shuffle(disc.slice(0,-1));disc=[disc[disc.length-1]];}const[dr]=deck.splice(0,1);const hands={...g.hands,[myId]:[...(g.hands[myId]||[]),dr]};const nx=(mi+g.direction+g.players.length*10)%g.players.length;await update(gameRef,{deck,discard:disc,hands,currentPlayer:nx,message:myName+" がドロー → "+g.players[nx].name+"のターン",updatedAt:Date.now()});};
+window.pickColor=async(color)=>{const snap=await get(gameRef);const g=snap.val();if(!g)return;const mi=g.players.findIndex(p=>p.id===myId),dir=g.direction,n=g.players.length;const nb=(mi+dir+n*10)%n,s2=(mi+dir*2+n*10)%n;let nx=nb,hands={...g.hands},deck=[...g.deck],disc=[...g.discard],msg=g.players[nx].name+"のターン";if(g.pendingWild4){const h=[...(hands[g.players[nb].id]||[])];for(let i=0;i<4;i++){if(!deck.length){deck=shuffle(disc.slice(0,-1));disc=[disc[disc.length-1]];}h.push(deck.splice(0,1)[0]);}hands[g.players[nb].id]=h;nx=s2;msg=g.players[nb].name+" が4枚ドロー！→ "+g.players[nx].name+"のターン";}await update(gameRef,{hands,deck,discard:disc,currentColor:color,currentPlayer:nx,phase:"play",pendingWild4:false,message:msg,updatedAt:Date.now()});};
+window.leaveGame=()=>{cleanup();location.reload();};
+function cleanup(){if(gameRef&&gameListener){off(gameRef,gameListener);gameRef=gameListener=null;}if(lobbyRef&&lobbyListener){off(lobbyRef,lobbyListener);lobbyRef=lobbyListener=null;}["winnerOverlay","colorOverlay"].forEach(id=>document.getElementById(id).classList.remove("active"));document.getElementById("gameScreen").classList.remove("active");}
+</script>
+</body>
+</html>
