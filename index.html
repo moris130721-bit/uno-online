@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🃏 UNO Online</title>
+<title>📋 UNO Online</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
@@ -37,7 +37,6 @@
     50% { filter: drop-shadow(0 0 40px rgba(255,110,199,0.9)); }
   }
   .subtitle { font-size: 1rem; color: #c9a0ff; letter-spacing: 3px; text-transform: uppercase; }
-
   .char-select-title { font-size: 1.1rem; color: #ffb6e6; font-weight: 700; }
 
   .char-grid {
@@ -72,24 +71,11 @@
   .char-btn .char-emoji { font-size: 2.2rem; }
   .char-btn .char-name { font-size: 0.8rem; color: #e8c8ff; }
 
-  .name-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    width: 100%;
-    max-width: 380px;
-  }
+  .name-row { display: flex; gap: 10px; align-items: center; width: 100%; max-width: 380px; }
   .name-input {
-    flex: 1;
-    padding: 12px 18px;
-    border-radius: 50px;
-    border: 2px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    font-size: 1rem;
-    font-family: 'Nunito', sans-serif;
-    outline: none;
-    transition: border-color 0.2s;
+    flex: 1; padding: 12px 18px; border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1);
+    color: #fff; font-size: 1rem; font-family: 'Nunito', sans-serif; outline: none; transition: border-color 0.2s;
   }
   .name-input::placeholder { color: rgba(255,255,255,0.4); }
   .name-input:focus { border-color: #ff6ec7; }
@@ -97,15 +83,8 @@
   .btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
   .btn {
-    padding: 13px 26px;
-    border-radius: 50px;
-    border: none;
-    font-size: 1rem;
-    font-weight: 800;
-    cursor: pointer;
-    font-family: 'Nunito', sans-serif;
-    transition: all 0.2s;
-    letter-spacing: 1px;
+    padding: 13px 26px; border-radius: 50px; border: none; font-size: 1rem; font-weight: 800;
+    cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.2s; letter-spacing: 1px;
   }
   .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
   .btn:active { transform: translateY(0); }
@@ -117,251 +96,221 @@
   .btn-sound:hover { background: rgba(255,255,255,0.25); }
 
   .card-box {
-    background: rgba(255,255,255,0.07);
-    border: 2px solid rgba(255,255,255,0.12);
-    border-radius: 22px;
-    padding: 32px;
-    width: 100%;
-    max-width: 420px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    align-items: center;
-    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.07); border: 2px solid rgba(255,255,255,0.12); border-radius: 22px;
+    padding: 32px; width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 18px;
+    align-items: center; backdrop-filter: blur(12px);
   }
   .card-box h2 { font-size: 1.5rem; font-weight: 800; color: #ffb6e6; }
-
-  .room-code {
-    font-size: 3rem;
-    font-weight: 900;
-    letter-spacing: 8px;
-    color: #ffe06e;
-    text-shadow: 0 0 20px rgba(255,224,110,0.5);
-    font-family: monospace;
-  }
+  .room-code { font-size: 3rem; font-weight: 900; letter-spacing: 8px; color: #ffe06e; text-shadow: 0 0 20px rgba(255,224,110,0.5); font-family: monospace; }
   .info-text { color: rgba(255,255,255,0.6); font-size: 0.88rem; text-align: center; }
 
   .join-input {
-    padding: 14px 20px;
-    border-radius: 50px;
-    border: 2px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    font-size: 1.6rem;
-    font-family: monospace;
-    letter-spacing: 8px;
-    text-align: center;
-    width: 100%;
-    outline: none;
+    padding: 14px 20px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1); color: #fff; font-size: 1.6rem; font-family: monospace;
+    letter-spacing: 8px; text-align: center; width: 100%; outline: none;
   }
   .join-input:focus { border-color: #4dbbff; }
 
   .player-list { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 360px; }
   .player-item {
-    background: rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 0.95rem;
+    background: rgba(255,255,255,0.08); border-radius: 12px; padding: 10px 16px;
+    display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.95rem;
   }
   .player-item .p-emoji { font-size: 1.6rem; }
   .player-item .host-badge { margin-left: auto; background: #ffe06e; color: #1a0533; padding: 2px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 800; }
 
-  /* GAME SCREEN */
+  /* GAME */
   #gameScreen { display: none; flex-direction: column; min-height: 100vh; padding: 0; gap: 0; }
   #gameScreen.active { display: flex; justify-content: space-between; align-items: stretch; }
 
   .game-header {
-    background: rgba(0,0,0,0.3);
-    padding: 9px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background: rgba(0,0,0,0.3); padding: 9px 14px;
+    display: flex; justify-content: space-between; align-items: center;
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }
   .game-title-small {
-    font-size: 1.3rem;
-    font-weight: 900;
+    font-size: 1.3rem; font-weight: 900;
     background: linear-gradient(135deg, #ff6ec7, #ffb347);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   }
   .turn-indicator { font-size: 0.82rem; font-weight: 700; color: #c9a0ff; text-align: right; }
   .turn-indicator.my-turn { color: #43e97b; }
 
   .opponents-row {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px 14px;
-    flex-wrap: wrap;
-    background: rgba(0,0,0,0.15);
+    display: flex; justify-content: center; gap: 8px;
+    padding: 8px 14px; flex-wrap: wrap; background: rgba(0,0,0,0.15);
   }
   .opponent-card {
-    background: rgba(255,255,255,0.06);
-    border: 2px solid rgba(255,255,255,0.1);
-    border-radius: 14px;
-    padding: 7px 12px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    transition: all 0.3s;
+    background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 7px 12px; display: flex; align-items: center;
+    gap: 7px; font-size: 0.82rem; font-weight: 700; transition: all 0.3s;
   }
   .opponent-card.active-player { border-color: #43e97b; background: rgba(67,233,123,0.15); box-shadow: 0 0 10px rgba(67,233,123,0.4); }
+  /* UNO状態の相手 */
+  .opponent-card.uno-danger {
+    border-color: #ff6ec7;
+    background: rgba(255,110,199,0.2);
+    box-shadow: 0 0 16px rgba(255,110,199,0.6);
+    animation: unoDanger 0.6s ease-in-out infinite alternate;
+  }
+  @keyframes unoDanger {
+    from { box-shadow: 0 0 10px rgba(255,110,199,0.4); }
+    to { box-shadow: 0 0 24px rgba(255,110,199,0.9); transform: scale(1.04); }
+  }
   .opponent-card .op-emoji { font-size: 1.4rem; }
   .opponent-card .op-count { background: rgba(255,255,255,0.2); border-radius: 20px; padding: 2px 7px; font-size: 0.78rem; }
+  .op-uno-badge { background: linear-gradient(135deg, #ff6ec7, #c44dff); color: #fff; padding: 2px 8px; border-radius: 20px; font-size: 0.78rem; font-weight: 900; letter-spacing: 1px; }
 
   .play-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 12px;
-    position: relative;
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; padding: 12px; position: relative;
   }
-
   .color-indicator { font-size: 0.82rem; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 2px; }
-
   .pile-row { display: flex; gap: 20px; align-items: center; }
   .pile-label { font-size: 0.72rem; color: rgba(255,255,255,0.5); text-align: center; margin-top: 4px; }
 
   .discard-pile {
-    width: 85px;
-    height: 122px;
-    border-radius: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 900;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border: 3px solid rgba(255,255,255,0.4);
-    transition: all 0.3s;
+    width: 85px; height: 122px; border-radius: 11px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; font-weight: 900; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 3px solid rgba(255,255,255,0.4); transition: all 0.3s;
+  }
+  .discard-pile.card-played { animation: cardPlayed 0.35s ease; }
+  @keyframes cardPlayed {
+    0% { transform: scale(0.7) rotate(-8deg); opacity: 0.5; }
+    60% { transform: scale(1.1) rotate(2deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
   }
 
   .deck-btn {
-    width: 85px;
-    height: 122px;
-    border-radius: 11px;
+    width: 85px; height: 122px; border-radius: 11px;
     background: linear-gradient(135deg, #2d0b5e, #1a0533);
     border: 3px solid rgba(255,110,199,0.4);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.2rem;
-    box-shadow: 0 7px 22px rgba(0,0,0,0.4);
-    transition: all 0.2s;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem; box-shadow: 0 7px 22px rgba(0,0,0,0.4); transition: all 0.2s;
     font-family: 'Nunito', sans-serif;
   }
   .deck-btn:hover { transform: scale(1.05) translateY(-4px); box-shadow: 0 10px 26px rgba(255,110,199,0.3); }
   .deck-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  .speech-bubble {
-    position: absolute;
-    top: 8px;
+  /* ドロースタック警告 */
+  .draw-stack-alert {
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    color: #fff;
+    border-radius: 14px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-align: center;
+    box-shadow: 0 4px 18px rgba(255,68,68,0.5);
+    animation: stackPulse 0.5s ease-in-out infinite alternate;
+    display: none;
+  }
+  .draw-stack-alert.show { display: block; }
+  @keyframes stackPulse {
+    from { transform: scale(1); box-shadow: 0 4px 18px rgba(255,68,68,0.5); }
+    to { transform: scale(1.04); box-shadow: 0 4px 28px rgba(255,68,68,0.9); }
+  }
+
+  /* カードプレイ通知 */
+  .play-notify {
+    position: fixed;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255,255,255,0.95);
-    color: #1a0533;
-    border-radius: 18px;
-    padding: 9px 16px;
-    font-size: 0.88rem;
-    font-weight: 700;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: rgba(20,5,50,0.92);
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 22px;
+    padding: 18px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 800;
     pointer-events: none;
     opacity: 0;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
-    z-index: 100;
-    transition: opacity 0.3s;
-    max-width: 260px;
+    transition: opacity 0.2s, transform 0.2s;
+    backdrop-filter: blur(8px);
+    min-width: 200px;
     text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  }
+  .play-notify.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .play-notify .pn-player { font-size: 0.88rem; color: #c9a0ff; font-weight: 700; }
+  .play-notify .pn-card {
+    font-size: 2.2rem;
+    font-weight: 900;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 3px solid rgba(255,255,255,0.4);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    min-width: 70px;
+  }
+  .play-notify .pn-label { font-size: 0.82rem; color: rgba(255,255,255,0.6); }
+
+  /* 吹き出し */
+  .speech-bubble {
+    position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+    background: rgba(255,255,255,0.95); color: #1a0533; border-radius: 18px;
+    padding: 9px 16px; font-size: 0.88rem; font-weight: 700; pointer-events: none;
+    opacity: 0; box-shadow: 0 4px 14px rgba(0,0,0,0.3); z-index: 100;
+    transition: opacity 0.3s; max-width: 260px; text-align: center;
   }
   .speech-bubble.show { opacity: 1; }
   .speech-bubble::after { content: ''; position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); border: 7px solid transparent; border-top-color: rgba(255,255,255,0.95); border-bottom: 0; }
 
   .message-bar {
-    background: rgba(0,0,0,0.4);
-    padding: 7px 14px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #c9a0ff;
-    text-align: center;
-    min-height: 34px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.4); padding: 7px 14px; font-size: 0.85rem; font-weight: 600;
+    color: #c9a0ff; text-align: center; min-height: 34px;
+    border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
   .my-area {
-    background: rgba(0,0,0,0.3);
-    padding: 10px 14px 14px;
+    background: rgba(0,0,0,0.3); padding: 10px 14px 14px;
     border-top: 2px solid rgba(255,255,255,0.08);
   }
   .my-info { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
   .my-emoji { font-size: 1.6rem; }
   .my-name { font-size: 0.88rem; font-weight: 800; color: #ffb6e6; }
+
+  /* 自分のUNOバッジ - より目立つ */
   .uno-badge {
     background: linear-gradient(135deg, #ff6ec7, #c44dff);
-    color: #fff;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 0.76rem;
-    font-weight: 800;
-    animation: unoPulse 0.8s ease-in-out infinite;
+    color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 900;
+    animation: unoPulse 0.5s ease-in-out infinite; letter-spacing: 2px;
+    box-shadow: 0 0 16px rgba(255,110,199,0.7);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.3);
   }
-  @keyframes unoPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+  @keyframes unoPulse { 0%,100% { transform: scale(1); box-shadow: 0 0 12px rgba(255,110,199,0.6); } 50% { transform: scale(1.15); box-shadow: 0 0 28px rgba(255,110,199,1); } }
 
   .hand {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    padding: 4px 4px 8px;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
+    display: flex; gap: 6px; overflow-x: auto; padding: 4px 4px 8px;
+    justify-content: flex-start; flex-wrap: nowrap;
   }
   .hand::-webkit-scrollbar { height: 3px; }
   .hand::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
   .card {
-    min-width: 60px;
-    height: 88px;
-    border-radius: 9px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    font-weight: 900;
-    cursor: pointer;
-    transition: transform 0.18s, box-shadow 0.18s;
-    flex-shrink: 0;
-    border: 2px solid rgba(255,255,255,0.45);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    position: relative;
-    user-select: none;
-    font-family: 'Nunito', sans-serif;
+    min-width: 60px; height: 88px; border-radius: 9px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; font-size: 1rem; font-weight: 900; cursor: pointer;
+    transition: transform 0.18s, box-shadow 0.18s; flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.45); box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    position: relative; user-select: none; font-family: 'Nunito', sans-serif;
   }
   .card:hover { transform: translateY(-13px) scale(1.07); box-shadow: 0 10px 22px rgba(0,0,0,0.5); z-index: 10; }
   .card.playable { box-shadow: 0 0 0 3px #ffe06e, 0 5px 14px rgba(255,224,110,0.4); }
   .card.playable:hover { box-shadow: 0 0 0 3px #ffe06e, 0 10px 22px rgba(255,224,110,0.6); }
+  /* +2スタック可能なカードの強調 */
+  .card.stack-able { box-shadow: 0 0 0 3px #ff6ec7, 0 5px 14px rgba(255,110,199,0.5); }
+  .card.stack-able:hover { box-shadow: 0 0 0 3px #ff6ec7, 0 10px 22px rgba(255,110,199,0.8); }
   .card .card-symbol { font-size: 1.3rem; }
 
   .color-picker-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    display: none;
-    backdrop-filter: blur(4px);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    align-items: center; justify-content: center; z-index: 1000; display: none; backdrop-filter: blur(4px);
   }
   .color-picker-overlay.show { display: flex; }
   .color-picker-box { background: #1a0533; border: 2px solid rgba(255,255,255,0.2); border-radius: 22px; padding: 28px; text-align: center; width: 290px; }
@@ -371,17 +320,9 @@
   .color-pick-btn:hover { transform: scale(1.08); }
 
   .win-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.8);
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    text-align: center;
-    gap: 18px;
-    backdrop-filter: blur(6px);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    z-index: 2000; text-align: center; gap: 18px; backdrop-filter: blur(6px);
   }
   .win-overlay.show { display: flex; }
   .win-char { font-size: 5.5rem; animation: bounce 0.55s ease infinite alternate; }
@@ -398,42 +339,52 @@
   .c-yellow { background: linear-gradient(135deg, #ffee00, #cc9900); color: #1a0533; }
   .c-wild { background: linear-gradient(135deg, #ff4444 25%, #4488ff 25%, #4488ff 50%, #44cc44 50%, #44cc44 75%, #ffee00 75%); color: #fff; }
 
+  /* UNOボタン - さらに目立つ */
   .uno-btn {
-    position: fixed;
-    bottom: 110px;
-    right: 14px;
-    background: linear-gradient(135deg, #ff6ec7, #c44dff);
-    color: #fff;
-    border: none;
-    border-radius: 50px;
-    padding: 11px 20px;
-    font-size: 0.95rem;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 5px 18px rgba(255,110,199,0.5);
-    font-family: 'Nunito', sans-serif;
-    z-index: 500;
-    display: none;
-    animation: unoPulse 0.8s ease-in-out infinite;
-    letter-spacing: 2px;
+    position: fixed; bottom: 110px; right: 14px;
+    background: linear-gradient(135deg, #ff3db8, #b800ff);
+    color: #fff; border: 3px solid rgba(255,255,255,0.4); border-radius: 50px;
+    padding: 14px 26px; font-size: 1.1rem; font-weight: 900; cursor: pointer;
+    box-shadow: 0 0 0 0 rgba(255,61,184,0.7);
+    font-family: 'Nunito', sans-serif; z-index: 500; display: none;
+    animation: unoShake 0.5s ease-in-out infinite, unoPing 1s ease-in-out infinite;
+    letter-spacing: 3px; text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  @keyframes unoShake {
+    0%,100% { transform: rotate(0deg) scale(1.05); }
+    25% { transform: rotate(-4deg) scale(1.08); }
+    75% { transform: rotate(4deg) scale(1.08); }
+  }
+  @keyframes unoPing {
+    0%,100% { box-shadow: 0 0 0 0 rgba(255,61,184,0.7), 0 8px 25px rgba(255,61,184,0.5); }
+    50% { box-shadow: 0 0 0 12px rgba(255,61,184,0), 0 8px 25px rgba(255,61,184,0.5); }
+  }
+
+  /* 全画面UNO通知 */
+  .uno-flash {
+    position: fixed; inset: 0; z-index: 1500; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .uno-flash.show { opacity: 1; }
+  .uno-flash-inner {
+    font-size: 4rem; font-weight: 900; letter-spacing: 8px;
+    background: linear-gradient(135deg, #ff6ec7, #ffe06e);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(255,110,199,0.8));
+    animation: unoFlashBounce 0.4s ease;
+  }
+  @keyframes unoFlashBounce {
+    0% { transform: scale(0.5); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
   }
 
   .toast {
-    position: fixed;
-    top: 56px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255,255,255,0.95);
-    color: #1a0533;
-    border-radius: 50px;
-    padding: 9px 22px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    z-index: 5000;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s;
-    white-space: nowrap;
+    position: fixed; top: 56px; left: 50%; transform: translateX(-50%);
+    background: rgba(255,255,255,0.95); color: #1a0533; border-radius: 50px;
+    padding: 9px 22px; font-size: 0.95rem; font-weight: 700; z-index: 5000;
+    pointer-events: none; opacity: 0; transition: opacity 0.3s; white-space: nowrap;
     box-shadow: 0 4px 18px rgba(0,0,0,0.3);
   }
   .toast.show { opacity: 1; }
@@ -443,6 +394,18 @@
 
 <button class="btn-sound" id="soundToggle" onclick="toggleSound()">🔊 ON</button>
 <div class="toast" id="toast"></div>
+
+<!-- 全画面UNO通知 -->
+<div class="uno-flash" id="unoFlash">
+  <div class="uno-flash-inner" id="unoFlashText">UNO!!</div>
+</div>
+
+<!-- カードプレイ通知 -->
+<div class="play-notify" id="playNotify">
+  <div class="pn-player" id="pnPlayer"></div>
+  <div class="pn-card" id="pnCard"></div>
+  <div class="pn-label" id="pnLabel"></div>
+</div>
 
 <!-- TOP -->
 <div class="screen active" id="topScreen">
@@ -501,6 +464,7 @@
   <div class="opponents-row" id="opponentsRow"></div>
   <div class="play-area">
     <div class="speech-bubble" id="speechBubble"></div>
+    <div class="draw-stack-alert" id="drawStackAlert"></div>
     <div class="color-indicator" id="colorIndicator">COLOR: -</div>
     <div class="pile-row">
       <div>
@@ -518,11 +482,11 @@
     <div class="my-info">
       <span class="my-emoji" id="myEmoji">🐱</span>
       <span class="my-name" id="myNameLabel">自分</span>
-      <span class="uno-badge" id="unoBadge" style="display:none">UNO!</span>
+      <span class="uno-badge" id="unoBadge" style="display:none">🚨 UNO!</span>
     </div>
     <div class="hand" id="myHand"></div>
   </div>
-  <button class="uno-btn" id="unoBtn" onclick="callUno()">UNO!</button>
+  <button class="uno-btn" id="unoBtn" onclick="callUno()">🔥 UNO!</button>
   <div style="position:fixed;bottom:14px;left:14px;z-index:500">
     <button class="btn btn-leave" onclick="leaveGame()">← 退出</button>
   </div>
@@ -569,16 +533,21 @@ const db = getDatabase(app);
 let myId = null, myName = '', myEmoji = '🐱', currentRoom = null, isHost = false;
 let pendingWild = null, soundEnabled = true, roomRef = null, unsubscribe = null, gameState = null;
 let speechTimer = null;
+let prevHandCounts = {}; // UNO検知用
+let lastPlayNotifyId = null; // プレイ通知重複防止
+let notifyTimer = null;
+let unoFlashTimer = null;
 
 const reactions = {
-  '🐱': { normal:'にゃ〜！', skip:'スキップにゃ！', reverse:'逆転にゃ！', draw2:'にゃんと！+2！', wild:'魔法のカードにゃ〜', wild4:'にゃんと！+4！', draw:'もらうにゃ...', uno:'UNOにゃ！！', win:'やったにゃ〜！！' },
+  '🐱': { normal:'にゃ〜！', skip:'スキップにゃ！', reverse:'逆転にゃ！', draw2:'にゃんと！+2！', wild:'魔法のカードにゃ〜', wild4:'にゃんと！+4！！', draw:'もらうにゃ...', uno:'UNOにゃ！！', win:'やったにゃ〜！！' },
   '🐶': { normal:'わんわん！', skip:'スキップだワン！', reverse:'逆転だワン！', draw2:'ワン！+2だ！', wild:'好きな色にするワン！', wild4:'ワン！+4だ！！', draw:'うーワン...', uno:'UNOだワン！！', win:'わ〜い勝ったワン！' },
-  '🐻': { normal:'ぐー。', skip:'スキップじゃ！', reverse:'方向転換！', draw2:'+2くらえ！', wild:'色は信が決める！', wild4:'+4だ！ガオ！！', draw:'しぶしぶ引くぞ...', uno:'UNO！！', win:'熊も勝てるんだ！' },
+  '🐻': { normal:'ぐー。', skip:'スキップじゃ！', reverse:'方向転換！', draw2:'+2くらえ！', wild:'色は俺が決める！', wild4:'+4だ！ガオ！！', draw:'しぶしぶ引くぞ...', uno:'UNO！！', win:'熊も勝てるんだ！' },
   '🐰': { normal:'ぴょん！', skip:'スキップぴょん！', reverse:'逆転ぴょん！', draw2:'えへへ+2！', wild:'好きな色！ぴょん！', wild4:'ぴょん+4！！', draw:'えーん...', uno:'UNOぴょん！！', win:'やったぴょん！！' },
   '🦊': { normal:'こんこん！', skip:'スキップこんこん！', reverse:'逆転！こんこん！', draw2:'こんこん+2！', wild:'きつねの魔法！', wild4:'こんこん+4！！', draw:'しょんぼり...', uno:'UNOこんこん！！', win:'やっぱりキツネは賢い！' },
   '🐼': { normal:'パンダパンチ！', skip:'スキップパンダ！', reverse:'逆転パンダ！', draw2:'パンダ+2！', wild:'パンダが選ぶ！', wild4:'パンダ+4！！', draw:'むしゃむしゃ...', uno:'UNOパンダ！！', win:'パンダ最強！！' },
 };
 
+// Audio
 let audioCtx = null;
 function getAudio() { if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)(); return audioCtx; }
 function playTone(freq,dur,type='sine',vol=0.3) {
@@ -591,9 +560,10 @@ function sfxSkip() { playTone(330,0.1,'square',0.2); setTimeout(()=>playTone(220
 function sfxDraw2() { [180,180].forEach((f,i)=>setTimeout(()=>playTone(f,0.12,'sawtooth',0.2),i*130)); }
 function sfxWild() { [330,440,550,660].forEach((f,i)=>setTimeout(()=>playTone(f,0.13,'sine',0.25),i*80)); }
 function sfxWild4() { [330,440,550,660,440,330].forEach((f,i)=>setTimeout(()=>playTone(f,0.1,'sawtooth',0.2),i*80)); }
-function sfxUno() { [660,880].forEach((f,i)=>setTimeout(()=>playTone(f,0.2,'square',0.3),i*120)); }
+function sfxUno() { [660,880,1100].forEach((f,i)=>setTimeout(()=>playTone(f,0.25,'square',0.35),i*100)); }
 function sfxWin() { [523,659,784,1047].forEach((f,i)=>setTimeout(()=>playTone(f,0.3,'sine',0.4),i*150)); }
 function sfxTurn() { playTone(880,0.12,'sine',0.25); }
+function sfxStack() { [400,300,200].forEach((f,i)=>setTimeout(()=>playTone(f,0.1,'sawtooth',0.3),i*80)); }
 
 window.toggleSound = function() { soundEnabled=!soundEnabled; document.getElementById('soundToggle').textContent=soundEnabled?'🔊 ON':'🔇 OFF'; };
 
@@ -616,6 +586,29 @@ function showSpeech(msg) {
   speechTimer=setTimeout(()=>b.classList.remove('show'),3000);
 }
 
+// カードプレイ通知（誰が何を出したか）
+function showPlayNotify(playerEmoji, playerName, cardDisplay, cardColor, actionLabel) {
+  const pn = document.getElementById('playNotify');
+  document.getElementById('pnPlayer').textContent = `${playerEmoji} ${playerName}`;
+  const pnCard = document.getElementById('pnCard');
+  pnCard.textContent = cardDisplay;
+  pnCard.className = `pn-card c-${cardColor}`;
+  document.getElementById('pnLabel').textContent = actionLabel || '';
+  pn.classList.add('show');
+  if(notifyTimer) clearTimeout(notifyTimer);
+  notifyTimer = setTimeout(()=>pn.classList.remove('show'), 1800);
+}
+
+// UNOフラッシュ通知
+function showUnoFlash(text) {
+  const f = document.getElementById('unoFlash');
+  document.getElementById('unoFlashText').textContent = text;
+  f.classList.add('show');
+  if(unoFlashTimer) clearTimeout(unoFlashTimer);
+  unoFlashTimer = setTimeout(()=>f.classList.remove('show'), 1200);
+}
+
+// Deck
 const COLORS=['red','blue','green','yellow'];
 function createDeck() {
   const deck=[];
@@ -695,7 +688,13 @@ window.startGame = async function() {
   ids.forEach(id=>{hands[id]=[];});
   for(let i=0;i<7;i++) ids.forEach(id=>hands[id].push(deck.pop()));
   let first; do{first=deck.pop();}while(first.value==='wild'||first.value==='wild4');
-  await update(ref(db,`rooms/${currentRoom}`),{phase:'playing',deck,hands,discard:[first],currentColor:first.color,currentPlayer:ids[0],direction:1,message:'ゲームスタート！',lastActionId:null});
+  await update(ref(db,`rooms/${currentRoom}`),{
+    phase:'playing', deck, hands, discard:[first],
+    currentColor:first.color, currentPlayer:ids[0], direction:1,
+    drawStack:0, // ★ドロースタック
+    lastPlay:null, // ★プレイ通知
+    message:'ゲームスタート！', lastActionId:null
+  });
 };
 
 function renderGame(room) {
@@ -706,7 +705,9 @@ function renderGame(room) {
   const discard=room.discard||[];
   const top=discard[discard.length-1];
   const isMyTurn=room.currentPlayer===myId;
+  const drawStack=room.drawStack||0;
 
+  // ターン表示
   const ti=document.getElementById('turnIndicator');
   if(isMyTurn) {
     ti.textContent='⭐ あなたのターン！'; ti.className='turn-indicator my-turn';
@@ -716,14 +717,57 @@ function renderGame(room) {
     ti.textContent=cp?`${cp.emoji} ${cp.name}のターン`:''; ti.className='turn-indicator'; delete ti.dataset.notified;
   }
 
+  // ★カードプレイ通知
+  const lp=room.lastPlay;
+  if(lp && lp.id !== lastPlayNotifyId) {
+    lastPlayNotifyId=lp.id;
+    // 自分のプレイ以外は通知
+    if(lp.playerId !== myId) {
+      const colorMap={red:'🔴',blue:'🔵',green:'🟢',yellow:'🟡',wild:'🌈'};
+      const label = lp.actionLabel||'';
+      showPlayNotify(lp.emoji, lp.name, lp.display, lp.color, label);
+      // 場札アニメ
+      setTimeout(()=>{
+        const dp=document.getElementById('discardPile');
+        dp.classList.remove('card-played');
+        void dp.offsetWidth;
+        dp.classList.add('card-played');
+      }, 50);
+    }
+  }
+
+  // ★UNO検知（手札が1枚になったとき）
+  ids.forEach(id=>{
+    const cnt=(hands[id]||[]).length;
+    const prev=prevHandCounts[id];
+    if(prev !== undefined && prev > 1 && cnt === 1) {
+      const p=players[id];
+      const isMe=id===myId;
+      sfxUno();
+      if(isMe){
+        showUnoFlash('UNO!!');
+      } else {
+        showUnoFlash(`${p.emoji} ${p.name} UNO!!`);
+      }
+    }
+    prevHandCounts[id]=cnt;
+  });
+
+  // 相手エリア（UNO状態を強調）
   document.getElementById('opponentsRow').innerHTML=ids.filter(id=>id!==myId).map(id=>{
     const p=players[id]; const cnt=(hands[id]||[]).length; const isActive=room.currentPlayer===id;
-    return `<div class="opponent-card ${isActive?'active-player':''}"><span class="op-emoji">${p.emoji||'🎮'}</span><span>${p.name}</span><span class="op-count">🃏${cnt}</span></div>`;
+    const isUno=cnt===1;
+    const cntHtml = isUno
+      ? `<span class="op-uno-badge">🚨UNO</span>`
+      : `<span class="op-count">📋${cnt}</span>`;
+    return `<div class="opponent-card ${isActive?'active-player':''} ${isUno?'uno-danger':''}"><span class="op-emoji">${p.emoji||'🎮'}</span><span>${p.name}</span>${cntHtml}</div>`;
   }).join('');
 
+  // 場札
   const dp=document.getElementById('discardPile');
   dp.textContent=top?top.display:'?'; dp.className='discard-pile c-'+(top?top.color:'wild');
 
+  // 色表示
   const colorMap={red:'🔴 赤',blue:'🔵 青',green:'🟢 緑',yellow:'🟡 黄',wild:'🌈 ワイルド'};
   document.getElementById('colorIndicator').textContent='現在の色: '+(colorMap[room.currentColor]||'-');
   document.getElementById('messageBar').textContent=room.message||'';
@@ -733,20 +777,35 @@ function renderGame(room) {
   document.getElementById('unoBtn').style.display=(myHand.length===1&&isMyTurn)?'block':'none';
   document.getElementById('deckBtn').disabled=!isMyTurn;
 
+  // ★ドロースタック警告
+  const dsa=document.getElementById('drawStackAlert');
+  if(drawStack>0 && isMyTurn){
+    dsa.textContent=`⚠️ +2スタック中！${drawStack}枚 / +2で返せる！`;
+    dsa.classList.add('show');
+  } else {
+    dsa.classList.remove('show');
+  }
+
+  // 手札レンダリング
   const handDiv=document.getElementById('myHand');
   handDiv.innerHTML='';
   myHand.forEach((card,idx)=>{
     const canPlay=isMyTurn&&canPlayCard(card,room);
+    const isStackable=isMyTurn&&drawStack>0&&card.value==='draw2';
     const div=document.createElement('div');
-    div.className=`card c-${card.color} ${canPlay?'playable':''}`;
+    div.className=`card c-${card.color} ${isStackable?'stack-able':canPlay?'playable':''}`;
     div.innerHTML=`<span class="card-symbol">${card.display}</span>`;
-    if(canPlay) div.onclick=()=>playCard(idx);
+    if(canPlay||isStackable) div.onclick=()=>playCard(idx);
     handDiv.appendChild(div);
   });
 }
 
+// ★drawStackを考慮したcanPlayCard
 function canPlayCard(card,room) {
+  const drawStack=room.drawStack||0;
   const top=(room.discard||[]).slice(-1)[0];
+  // ドロースタック中は+2のみ返せる
+  if(drawStack>0) return card.value==='draw2';
   if(!top) return true;
   if(card.color==='wild') return true;
   if(card.color===room.currentColor) return true;
@@ -778,11 +837,14 @@ window.playCard = async function(idx) {
   else if(card.value==='wild4') sfxWild4();
   else sfxPlay();
 
+  // 場札アニメ
+  const dp=document.getElementById('discardPile');
+  dp.classList.remove('card-played'); void dp.offsetWidth; dp.classList.add('card-played');
+
   if(myHand.length===0){
     await update(ref(db,`rooms/${currentRoom}`),{hands,discard,phase:'ended',winner:myId,message:`${myEmoji} ${myName} の勝ち！！🎉`});
     return;
   }
-  if(myHand.length===1){sfxUno();showSpeech(reactions[myEmoji]?.uno||'UNO!!');}
 
   await applyPlayCard(card,hands,discard,players,ids);
 };
@@ -790,68 +852,105 @@ window.playCard = async function(idx) {
 async function applyPlayCard(card,hands,discard,players,ids) {
   const currIdx=ids.indexOf(gameState.currentPlayer);
   let dir=gameState.direction;
-  let next,deck=[...(gameState.deck||[])],msg=`${myEmoji} ${myName} がカードをプレイ！`,newColor=card.color==='wild'?gameState.currentColor:card.color;
+  let next,deck=[...(gameState.deck||[])];
+  let newColor=card.color==='wild'?gameState.currentColor:card.color;
+  let drawStack=gameState.drawStack||0;
+  let msg='';
+
+  // ★プレイ通知データ
+  let actionLabel='';
 
   if(card.value==='reverse'){
     dir*=-1;
     next=ids.length===2?myId:ids[(currIdx+dir+ids.length)%ids.length];
     msg=`🔄 ${myEmoji} ${myName} がリバース！`;
+    actionLabel='リバース！';
   } else if(card.value==='skip'){
     const si=(currIdx+dir+ids.length)%ids.length;
     next=ids[(si+dir+ids.length)%ids.length];
     msg=`🚫 ${myEmoji} ${myName} がスキップ！`;
+    actionLabel='スキップ！';
   } else if(card.value==='draw2'){
-    const target=ids[(currIdx+dir+ids.length)%ids.length];
-    for(let i=0;i<2;i++){if(deck.length===0)deck=shuffle(discard.slice(0,-1));if(deck.length>0)hands[target].push(deck.pop());}
-    next=ids[(currIdx+dir*2+ids.length)%ids.length];
-    msg=`${players[target].emoji} ${players[target].name} が2枚ドロー！`;
+    // ★ドロースタック: 2を積み上げ、次のプレイヤーは+2で返すか引くか
+    drawStack+=2;
+    next=ids[(currIdx+dir+ids.length)%ids.length];
+    msg=`⚠️ ${myEmoji} ${myName} が+2！ スタック: ${drawStack}枚`;
+    actionLabel=`+2 スタック${drawStack}枚`;
+    sfxStack();
   } else if(card.value==='wild4'){
     const target=ids[(currIdx+dir+ids.length)%ids.length];
     for(let i=0;i<4;i++){if(deck.length===0)deck=shuffle(discard.slice(0,-1));if(deck.length>0)hands[target].push(deck.pop());}
     next=ids[(currIdx+dir*2+ids.length)%ids.length];
     msg=`${players[target].emoji} ${players[target].name} が4枚ドロー！`;
-    pendingWild={hands,discard,next,dir,deck,players,ids,msg};
+    actionLabel='+4!!';
+    const pw={hands,discard,next,dir,deck,drawStack:0,msg,actionLabel};
+    pendingWild=pw;
     document.getElementById('colorPicker').classList.add('show');
     return;
   } else if(card.value==='wild'){
     next=ids[(currIdx+dir+ids.length)%ids.length];
-    pendingWild={hands,discard,next,dir,deck,players,ids,msg};
+    actionLabel='ワイルド！';
+    const pw={hands,discard,next,dir,deck,drawStack:0,msg:`${myEmoji} ${myName} がワイルド！`,actionLabel};
+    pendingWild=pw;
     document.getElementById('colorPicker').classList.add('show');
     return;
   } else {
     next=ids[(currIdx+dir+ids.length)%ids.length];
+    msg=`${myEmoji} ${myName} が ${card.display} を出した！`;
+    actionLabel=card.display;
+    drawStack=0;
   }
 
   const aid=genId();
-  await update(ref(db,`rooms/${currentRoom}`),{hands,discard,deck,currentColor:newColor,currentPlayer:next,direction:dir,message:msg,lastActionId:aid});
+  const lastPlay={id:aid, playerId:myId, emoji:myEmoji, name:myName, display:card.display, color:card.color, actionLabel};
+  await update(ref(db,`rooms/${currentRoom}`),{hands,discard,deck,currentColor:newColor,currentPlayer:next,direction:dir,drawStack,message:msg,lastPlay,lastActionId:aid});
 }
 
 window.pickColor = async function(color) {
   document.getElementById('colorPicker').classList.remove('show');
   if(!pendingWild) return;
-  const {hands,discard,next,dir,deck,msg}=pendingWild; pendingWild=null;
+  const {hands,discard,next,dir,deck,drawStack,msg,actionLabel}=pendingWild; pendingWild=null;
   const aid=genId();
-  await update(ref(db,`rooms/${currentRoom}`),{hands,discard,deck,currentColor:color,currentPlayer:next,direction:dir,message:msg+` 色→${color}`,lastActionId:aid});
+  const lastPlay={id:aid, playerId:myId, emoji:myEmoji, name:myName, display:'★', color:'wild', actionLabel};
+  await update(ref(db,`rooms/${currentRoom}`),{hands,discard,deck,currentColor:color,currentPlayer:next,direction:dir,drawStack:drawStack||0,message:msg+` 色→${color}`,lastPlay,lastActionId:aid});
 };
 
+// ★ドロー（スタック対応）
 window.drawCard = async function() {
   if(!gameState||gameState.currentPlayer!==myId) return;
   let deck=[...(gameState.deck||[])];
   const hands={...gameState.hands};
   const myHand=[...hands[myId]];
   const discard=gameState.discard||[];
+  const drawStack=gameState.drawStack||0;
+
+  // スタックがあれば複数枚引く
+  const drawCount=drawStack>0?drawStack:1;
   if(deck.length===0) deck=shuffle(discard.slice(0,-1));
-  if(deck.length===0){showToast('カードがもうないよ！');return;}
-  myHand.push(deck.pop()); hands[myId]=myHand;
-  sfxDraw(); showSpeech(reactions[myEmoji]?.draw||'ドロー...');
+
+  for(let i=0;i<drawCount;i++){
+    if(deck.length===0) deck=shuffle(discard.slice(0,-1));
+    if(deck.length>0) myHand.push(deck.pop());
+  }
+  hands[myId]=myHand;
+
+  sfxDraw();
+  if(drawStack>0){
+    showSpeech(`${drawStack}枚ドロー！きつい...`);
+    showToast(`😱 ${drawStack}枚ドロー！`);
+  } else {
+    showSpeech(reactions[myEmoji]?.draw||'ドロー...');
+  }
+
   const players=gameState.players; const ids=Object.keys(players);
   const currIdx=ids.indexOf(myId); const dir=gameState.direction;
   const next=ids[(currIdx+dir+ids.length)%ids.length];
   const aid=genId();
-  await update(ref(db,`rooms/${currentRoom}`),{hands,deck,currentPlayer:next,message:`${myEmoji} ${myName} がドロー`,lastActionId:aid});
+  const msg=drawStack>0?`${myEmoji} ${myName} が${drawStack}枚ドロー！`:`${myEmoji} ${myName} がドロー`;
+  await update(ref(db,`rooms/${currentRoom}`),{hands,deck,currentPlayer:next,drawStack:0,message:msg,lastActionId:aid});
 };
 
-window.callUno = function() { sfxUno(); showSpeech(reactions[myEmoji]?.uno||'UNO!!'); showToast('UNO！！🎉'); };
+window.callUno = function() { sfxUno(); showSpeech(reactions[myEmoji]?.uno||'UNO!!'); showToast('🔥 UNO！！'); };
 
 function handleWin(winnerId,players) {
   const winner=players?.[winnerId]; if(!winner) return;
@@ -879,12 +978,15 @@ window.leaveGame = async function() {
   if(unsubscribe){unsubscribe();unsubscribe=null;}
   document.getElementById('winOverlay').classList.remove('show');
   document.getElementById('colorPicker').classList.remove('show');
+  document.getElementById('playNotify').classList.remove('show');
+  document.getElementById('unoFlash').classList.remove('show');
   if(currentRoom){
     if(isHost) await remove(ref(db,`rooms/${currentRoom}`));
     else await remove(ref(db,`rooms/${currentRoom}/players/${myId}`));
     currentRoom=null;
   }
   isHost=false; gameState=null; pendingWild=null;
+  prevHandCounts={}; lastPlayNotifyId=null;
   document.getElementById('roomCodeInput').value='';
   document.getElementById('joinStatusMsg').textContent='';
   document.getElementById('joinWaitingList').innerHTML='';
